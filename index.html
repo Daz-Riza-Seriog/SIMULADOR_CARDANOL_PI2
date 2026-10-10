@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c1528">
+  <meta name="description" content="Simulador didáctico de interesados, Canvas y supuestos del Proyecto Integrador 2.">
+  <title>Simulador del cardanol | PI-2</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="data.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Navegación de secciones">
+      <a class="brand" href="#inicio"><span class="brand-mark">C<span>•</span></span><span><strong>Proyecto Integrador</strong><small>Simulador didáctico · PI-2</small></span></a>
+      <div class="side-divider"></div>
+      <p class="menu-caption">EXPLORAR</p>
+      <nav class="side-nav">
+        <a href="#inicio" class="active"><span>◫</span> Presentación</a>
+        <a href="#actores"><span>◎</span> Actores y vinculación</a>
+        <a href="#mapa"><span>▦</span> Mapa de interesados</a>
+        <a href="#supuestos"><span>▰</span> Solidez de supuestos</a>
+        <a href="#canvas"><span>▤</span> Canvas del proyecto</a>
+        <a href="#modelo"><span>ƒ</span> Modelo y vínculos</a>
+        <a href="#comparacion"><span>⇆</span> Comparación</a>
+        <a href="#salida"><span>↗</span> Tarjeta de salida</a>
+      </nav>
+      <div class="side-info"><span class="dot"></span><div><strong>Versión académica</strong><span>Modelo ilustrativo y editable. No representa una evaluación técnica certificada.</span></div></div>
+      <div class="side-footer">Repositorio HTML · CSS · JS<br><a href="https://pages.github.com/" target="_blank" rel="noopener noreferrer">Compatible con GitHub Pages ↗</a></div>
+    </aside>
+    <div class="main-wrap">
+      <header class="topbar">
+        <div class="breadcrumbs">MAESTRÍA <span>/</span> PROYECTO INTEGRADOR 2 <span>/</span> SEMANA 1</div>
+        <div class="top-actions"><span class="version-pill"><span class="dot"></span> Prototipo editable</span><button class="btn ghost small" id="import-json" type="button">↑ Importar JSON</button><input id="import-file" type="file" accept=".json,application/json" hidden><button class="btn ghost small" id="download-json" type="button">↓ Exportar escenario JSON</button></div>
+      </header>
+      <main id="main" class="content">
+        <section id="inicio" class="hero">
+          <div class="hero-kicker"><span class="kicker-square">▣</span> INSTRUMENTO DIDÁCTICO · 15 MINUTOS</div>
+          <h1>Simulador del <em>cardanol</em></h1>
+          <p class="lead">Explore cómo la gestión de interesados influye en la solidez de los supuestos y en las decisiones del Canvas. Ajuste poder, interés, postura y vinculación para poner a prueba su estrategia.</p>
+          <div class="metric-grid" id="metric-grid"></div>
+        </section>
+        <section class="case-banner" aria-label="Contexto del proyecto"><div><div class="eyebrow">EL CASO DE LA CLASE</div><h2>De la cáscara de marañón a los oleogeles</h2><p id="case-description"></p><p class="case-footnote" id="case-detail"></p></div><div class="case-aside"><div class="case-icon">⚗</div><strong>Investigación aplicada</strong><small>Fuente de inspiración: simulador compartido en la clase sincrónica.</small><span class="badge purple">DATOS ILUSTRATIVOS</span></div></section>
+        <section class="panel controls-panel" aria-label="Controles de simulación">
+          <div class="control-head"><div><div class="eyebrow">LABORATORIO DE DECISIONES</div><h2>Configure su escenario</h2></div><div class="timer"><span>TIEMPO DEL TALLER</span><strong id="timer-display" aria-live="off">15:00</strong><button id="timer-start" class="btn secondary small" type="button">▶ Iniciar</button><button id="timer-reset" class="btn ghost small" type="button">↺</button></div></div>
+          <div class="scenario-switch" role="group" aria-label="Escenarios base"><button type="button" data-scenario="pi1" class="scenario-button">PI-1 <small>Primera versión</small></button><button type="button" data-scenario="pi2" class="scenario-button active">PI-2 <small>Condición inicial</small></button><button type="button" data-scenario="plan" class="scenario-button">PI-2 <small>Con plan de vinculación</small></button></div>
+          <div class="control-bottom"><button id="undo-changes" class="btn ghost" type="button">↶ Deshacer mis cambios</button><label class="toggle-wrap"><input type="checkbox" id="food-variant"><span class="switch"></span><span>Uso alimentario (variante)</span></label><label class="select-inline">Comparar con <select id="compare-select" aria-label="Escenario de referencia"><option value="pi1">PI-1: primera versión</option><option value="pi2">PI-2: condición inicial</option><option value="plan">PI-2: plan de vinculación</option></select></label></div>
+        </section>
+        <section id="actores" class="section-block">
+          <div class="section-title"><div><div class="eyebrow">01 · PRIORIZACIÓN</div><h2>Actores y vinculación</h2><p>Escalas: poder e interés (1 a 5), postura (−2 a +2), vinculación (0 a 4). <strong>R</strong> es el nivel requerido; <strong>brecha</strong> = máximo entre 0 y R − E.</p></div><span class="section-counter" id="actor-count"></span></div>
+          <div class="panel actor-panel"><div class="table-scroller"><table class="actor-table"><thead><tr><th>Actor</th><th>Poder</th><th>Interés</th><th>Postura</th><th>Vinculación</th><th>R</th><th>Brecha</th><th>Acciones</th></tr></thead><tbody id="actor-rows"></tbody></table></div><div class="panel-note"><span class="note-symbol">i</span><p>Excluir un actor deja su vinculación en 0 en el modelo predeterminado: no gestionarlo no hace desaparecer su influencia. Puede restablecerlo o ignorar a los excluidos en las opciones del cálculo. Las celdas modificadas se destacan.</p></div></div>
+        </section>
+        <section id="mapa" class="section-block">
+          <div class="section-title"><div><div class="eyebrow">02 · VISUALIZACIÓN</div><h2>Mapa de interesados</h2><p>Tamaño de burbuja = R. Contorno ámbar = brecha de involucramiento. Trazo punteado = posición de referencia.</p></div></div>
+          <div class="panel map-panel"><div class="legend"><span><i class="legend-dot pos"></i> Favorable</span><span><i class="legend-dot neutral"></i> Neutral</span><span><i class="legend-dot neg"></i> Contraria</span><span><i class="legend-border"></i> Brecha</span></div><div class="map-area"><svg id="stakeholder-map" role="img" aria-label="Mapa de poder e interés" viewBox="0 0 780 430" preserveAspectRatio="xMidYMid meet"></svg></div><div class="map-bottom"><strong id="map-summary"></strong><span>Poder ↑ · Interés →</span></div></div>
+        </section>
+        <section id="supuestos" class="section-block">
+          <div class="section-title"><div><div class="eyebrow">03 · RESULTADOS</div><h2>Solidez de los supuestos</h2><p>La barra representa el escenario actual; la línea vertical marca el escenario elegido como referencia.</p></div><span class="section-counter" id="assumption-count"></span></div>
+          <div class="assumption-grid" id="assumption-grid"></div>
+          <div class="panel explainer"><div class="explainer-icon">?</div><div><h3>¿Cómo interpretar la solidez?</h3><p>Una puntuación cercana a 100 indica menor exposición en el <strong>modelo demostrativo</strong>. La calificación disminuye según el poder, la postura y la brecha de vinculación de los actores relacionados con cada supuesto. No es una probabilidad de éxito ni una prueba técnica. Los umbrales editables definen las categorías: reforzado, frágil y debilitado.</p></div></div>
+        </section>
+        <section id="canvas" class="section-block">
+          <div class="section-title"><div><div class="eyebrow">04 · DISEÑO DE NEGOCIO</div><h2>Canvas del proyecto</h2><p>Versión adaptada para investigación, donde cada bloque se conecta con los supuestos y sus actores de validación.</p></div></div>
+          <div class="canvas-grid" id="canvas-grid"></div>
+          <div class="panel insights" id="insights" aria-live="polite"></div>
+        </section>
+        <section id="modelo" class="section-block">
+          <div class="section-title"><div><div class="eyebrow">05 · TRANSPARENCIA</div><h2>Modelo y relaciones</h2><p>Las siguientes ecuaciones se proponen únicamente para esta reconstrucción. <strong>No son una transcripción verificada del cálculo original del docente.</strong></p></div></div>
+          <div class="model-grid"><div class="panel options-panel"><h3>Opciones del cálculo</h3><div class="field"><label for="opt-k">Peso de exposición k <span id="val-k">15</span></label><input type="range" id="opt-k" min="0" max="30" step="1" value="15"></div><div class="field"><label for="opt-beta">Penalidad por brecha β <span id="val-beta">0,50</span></label><input type="range" id="opt-beta" min="0" max="2" step="0.05" value="0.5"></div><div class="field"><label for="opt-high">Umbral de reforzado <span id="val-high">70</span></label><input type="range" id="opt-high" min="45" max="95" step="1" value="70"></div><div class="field"><label for="opt-low">Umbral de debilitado <span id="val-low">40</span></label><input type="range" id="opt-low" min="5" max="60" step="1" value="40"></div><div class="field"><strong>Actores excluidos</strong><label class="radio-line"><input type="radio" name="excluded" value="zero" checked> Considerar con vinculación 0</label><label class="radio-line"><input type="radio" name="excluded" value="ignore"> Ignorarlos en el cálculo</label></div><button class="btn ghost" id="reset-options" type="button">↺ Valores del ejemplo</button></div>
+          <div class="panel formula-panel"><h3>Reglas explícitas del prototipo</h3><p class="formula-caption">Nivel requerido por actor</p><div class="formula">R = mín(4, 1 + B₁ + B₂ + B₃)</div><p class="math-explain">B₁ = 1 si P≥4 o I≥4; B₂ = 1 si P≥4 e I≥4; B₃ = 1 si P≥4 y A es negativa. Si no, cada B vale 0.</p><p class="formula-caption">Penalidad de cada actor vinculado</p><div class="formula">d = k · (P/5) · [0,25 + 0,20·(2−A)] · [1 + β·máx(0,R−E)]</div><p class="formula-caption">Solidez de un supuesto</p><div class="formula">S = máx(0, mín(100, 100 − Σ d))</div><p class="math-explain">P: poder, I: interés, A: postura, E: vinculación efectiva. La suma incluye solo actores vinculados al supuesto. La variante alimentaria aplica un techo didáctico de 25 para representar una barrera de evidencia no resuelta.</p><span class="badge amber">HEURÍSTICA DIDÁCTICA · NO VALIDADA</span></div></div>
+          <div class="panel relation-panel"><div class="split-title"><div><h3>Matriz supuesto–actor</h3><p>Active o desactive la relación según quién pueda confirmar o cuestionar cada hipótesis.</p></div><button id="reset-links" class="btn ghost small" type="button">Restablecer vínculos</button></div><div id="relation-table" class="table-scroller"></div></div>
+          <div class="panel calc-panel"><div class="split-title"><div><h3>Cálculo detallado</h3><p>Desglose auditable de la puntuación del supuesto seleccionado.</p></div><label class="select-inline">Supuesto <select id="detail-select"></select></label></div><div id="calc-details"></div></div>
+        </section>
+        <section id="comparacion" class="section-block"><div class="section-title"><div><div class="eyebrow">06 · APRENDIZAJE</div><h2>Comparación de escenarios</h2><p>Las columnas se recalculan con las mismas reglas; así se compara el efecto de las decisiones sobre actores y sus vínculos.</p></div><button id="save-scenario" class="btn primary" type="button">＋ Guardar escenario actual</button></div><div class="panel"><div class="table-scroller" id="comparison-table"></div><p class="fine-print">Las comparaciones guardadas duran mientras la página permanezca abierta (máximo cuatro). Use «Exportar escenario JSON» para conservar su trabajo en un archivo local.</p></div></section>
+        <section id="salida" class="section-block"><div class="section-title"><div><div class="eyebrow">07 · REFLEXIÓN</div><h2>Tarjeta de salida</h2><p>Convierta el diagnóstico en una decisión gerencial justificable.</p></div></div><div class="panel exit-panel"><label for="decision"><strong>¿Qué decisión tomaría sobre el Canvas o el plan de vinculación y por qué?</strong></label><textarea id="decision" rows="5" maxlength="2000" placeholder="Ej.: priorizaría una reunión de validación con la empresa aliada porque..."></textarea><div class="exit-footer"><span id="decision-count">0 / 2000 caracteres</span><button id="copy-exit" type="button" class="btn primary">▣ Copiar tarjeta de salida</button></div></div></section>
+        <footer><strong>Simulador del cardanol · Base para GitHub Pages</strong><span>Proyecto Integrador 2 · Semana 1 · Reconstrucción independiente con datos de demostración.</span><span>Inspirado en el taller académico. No afiliado ni equivalente al software original.</span></footer>
+      </main>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
